@@ -104,11 +104,11 @@
 			<map from="${dist.lib.dir}" to="lib"/>
 		</pathconvert>
 		<!-- Netbase Jar Manifest-->
-		<manifestclasspath property="nb-jar.classpath" jarfile="${dist.dir}/${name}.jar">
+		<manifestclasspath property="nb-jar.classpath" jarfile="${dist.dir}/${ant.properties.name}.jar">
 			<classpath refid="netbase.classpath" />
 		</manifestclasspath>
 
-		<jar destfile="${lib.dir}/${name}.jar">
+		<jar destfile="${lib.dir}/${ant.properties.name}.jar">
 			<manifest>
 				<attribute name="Built-By" value="${user.name}" />
 				<attribute name="Class-Path" value="${jar.classpath} ${nb-jar.classpath}" />
