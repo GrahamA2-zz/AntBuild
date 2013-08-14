@@ -7,6 +7,10 @@
 .metadata
 bin/
 tmp/
+lib/
+dist/
+build/
+documentation/
 *.tmp
 *.bak
 *.swp
