@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test" basedir="." default="test">
+
+    <import file="common-targets.xml"/>
+	<!-- Junit -->
+	<!-- Source location -->
+	<property name="test.dir" value="test" /> 
+	<property name="test.intergration.dir" value="intergration" />
+	
+	<!-- Compile Location -->
+	<property name="test.classes.dir" value="build/classes" />
+	<!-- Test Results -->
+	<property name="junit.output.dir" value="${doc.dir}/test"/>
+	
+	<target name="init" depends="common.init">
+		<mkdir dir="${test.classes.dir}" />
+	</target>
+	
+	<path id="testlibrary.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="hamcrest-all-1.3.jar"/>
+			<include name="junit-4.11.jar"/>
+		</fileset>
+    </path>	
+	 
+	 <path id="test.classpath">
+       <pathelement path="${test.classes.dir}" />
+	   <path refid="netbase.classpath"/>
+	   <path refid="compile.classpath" />
+	   <path refid="testlibrary.classpath" />
+    </path>
+  
+    <!-- This will inlcude all classes in the -->
+  	<fileset id="test.unit" dir="${test.classes.dir}">
+	  <!--include name = "**/*.class"/-->
+	  <include name = "**/*Tests.class"/>
+	  <exclude name = "**/*Accept*Tests.class"/>
+	  <exclude name = "**/*Inter*Tests.class"/>
+	  <exclude name = "**/*Perf*Tests.class"/>
+    </fileset>
+	
+	<fileset id="test.intergration" dir="${test.classes.dir}">
+	  <include name = "**/*Inter*Tests.class"/>
+	</fileset>
+	
+	<fileset  id="test.performace" dir="${test.classes.dir}">
+	  <include name = "**/*Perf*Tests.class"/>
+	</fileset>
+
+	<fileset id ="test.acceptance" dir="${test.classes.dir}">
+      <include name = "**/*Accept*Tests.class"/>
+	</fileset>
+
+	<target name="compile-tests" depends="build" >
+	  <javac srcdir="${test.dir}" includeantruntime="true" destdir="${test.classes.dir}">
+	    <src> 
+		  <pathelement location="${test.dir}" />
+		  <!-- Add additional locations here -->
+		  <pathelement location="${test.intergration.dir}" />
+		</src>
+		<exclude name="**/*.${svn.filetype}" />
+	  	<classpath refid="test.classpath"/>
+		<!--classpath refid="test.compile.classpath"/-->
+	   </javac>
+	</target>
+				
+	<!-- Parameterised version of the unit tests; -DPerf.Tests=[TRUE|FALSE] -->
+    <target name="test" depends="compile-tests" description="Run all unit tests using paramters to control which tests are run">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr" failureproperty="test.failures">
+            <classpath refid="test.classpath"/>
+        	<formatter type="xml"/>
+            <batchtest todir="${junit.output.dir}">
+                <fileset refid="test.unit"/>
+            </batchtest>
+            <batchtest if="Perf.Tests" todir="${junit.output.dir}">
+            	<fileset refid="test.performace"/>
+            </batchtest>
+            <batchtest if="Accept.Tests" todir="${junit.output.dir}">
+                 <fileset refid="test.acceptance"/>
+            </batchtest>
+            <batchtest if="Intergration.Tests" todir="${junit.output.dir}">
+                 <fileset refid="test.intergration"/>
+            </batchtest>
+        </junit>
+    </target>
+
+	<target name="test-unit" depends="compile-tests" description="Run all unit tests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr" failureproperty="test.failures">
+            <classpath refid="test.classpath"/>
+        	<formatter type="xml"/>
+            <batchtest todir="${junit.output.dir}"> <!-- Use either the .class or .java and set dir as required -->
+                 <fileset refid="test.unit"/>
+            </batchtest>
+        </junit>
+    </target>
+
+	<target name="test-intergration" depends="compile-tests" description="Run all intergration tests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr" failureproperty="test.failures">
+            <classpath refid="test.classpath"/>
+        	<formatter type="xml"/>
+            <batchtest todir="${junit.output.dir}"> 
+                <fileset refid="test.intergration"/>
+            </batchtest>
+        </junit>
+    </target>
+
+	<target name="test-performace" depends="compile-tests" description="Run all performance tests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr" failureproperty="test.failures">
+            <classpath refid="test.classpath"/>
+        	<formatter type="xml"/>
+            <batchtest todir="${junit.output.dir}"> 
+                <fileset refid="test.performace"/>
+            </batchtest>
+        </junit>
+    </target>
+	
+	<target name="test-acceptance" depends="compile-tests" description="Run all acceptance tests">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr" failureproperty="test.failures">
+            <classpath refid="test.classpath"/>
+        	<formatter type="xml"/>
+            <batchtest todir="${junit.output.dir}">
+                <fileset refid="test.acceptance"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="test-report" description="create a test report">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    	<fail if="test.failures" message="Problems were found during testing"/>
+    </target>
+</project>

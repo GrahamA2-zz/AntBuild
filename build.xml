@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ScheduledClass" basedir="." default="createjar">
+
+    <import  file="./common-targets.xml"/>
+    <import  file="./doc-targets.xml"/>
+    <import  file="./test-targets.xml"/>
+
+	<property name="ilog.deploy" value="false" />
+
+	<path id="module.classpath">
+       	<fileset dir="../library/">
+			<include name="CrowderINI.jar" />
+		</fileset>
+	</path>
+
+	<!-- Example to show how a file can be run -->
+	<target name="run" depends="common.createjar">
+       <java jar="dist/${name}.jar" fork="true" failonerror="true" maxmemory="128m" />
+    </target>
+
+</project>

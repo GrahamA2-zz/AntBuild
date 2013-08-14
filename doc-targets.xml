@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="docs" basedir="." default="javadoc">
+
+	<property name="doc.dir" value="./documentation/" />
+	<property name="src-delomboked.dir" value="src-delomboked" />
+    
+	<taskdef classname="lombok.delombok.ant.DelombokTask"  classpath="${lib.dir}/lombok.jar" name="delombok"/>
+	
+	<!-- Remove LOMBOK and repace with normal getter and setter methods -->
+	<target name="delombok">	
+		<mkdir dir="${src-delomboked.dir}" />
+		<delombok verbose="true" encoding="UTF-8" to="${src-delomboked.dir}" >
+			<fileset dir="${src.dir}">
+				<filename name="**/*.java"/>
+			</fileset>
+		    <classpath>
+			  <path refid="compile.classpath"/>
+			  <path refid="module.classpath"/>
+			</classpath>
+		</delombok>
+	</target>
+
+	<!-- Generate Javadoc from a delomboked source  -->
+	<target name="javadoc"  depends="delombok" description="generate documentation">
+	    <mkdir dir="${doc.dir}" />
+		<javadoc sourcepath="${src-delomboked.dir}" destdir="${doc.dir}/javadoc">
+		  <classpath>
+			  <path refid="compile.classpath"/>
+			  <path refid="module.classpath"/>
+			</classpath>
+		</javadoc>
+		<delete dir="${src-delomboked.dir}"/>
+	</target>
+	
+    <target name="javadoc-withoutlombok">
+	    <mkdir dir="${doc.dir}" />
+		<javadoc sourcepath="${src.dir}" classpathref="compile.classpath" destdir="${doc.dir}/javadoc"/>
+	</target>
+	 
+	<target name="javadoc-zip" description="Create ZIP file containing Javadoc HTML pages" depends="javadoc">
+        <zip zipfile="${doc.dir}/${name}-javadocs.zip">
+             <zipfileset dir="${doc.dir}/javadoc"/>
+        </zip>
+    </target>
+</project>
