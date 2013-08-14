@@ -123,20 +123,20 @@
 					 includes="*.xml, *.properties, *.png"
 					 excludes="build.xml,test-targets.xml,doc-targets.xml,common-targets.xml, *-fb.xml, *.${svn.filetype}" />
 		</jar>
-		<move file="${lib.dir}/${name}.jar" todir="${dist.dir}" />
+		<move file="${lib.dir}/${ant.properties.name}.jar" todir="${dist.dir}" />
 	</target>
 
 	<target name="deployjar" if="${ilog.deploy}" depends="createjar" description="Deploy Ilog dependent jar file">
 		<jlmdeploy products="${ilogchart.version},${ilogmap.version}"
 				   application="${application.name}"
-				   input="${dist.dir}/${name}.jar"
-				   output="${dist.dir}/${name}_deployed.jar">
+				   input="${dist.dir}/${ant.properties.name}.jar"
+				   output="${dist.dir}/${ant.properties.name}_deployed.jar">
 		<classpath>
 			<pathelement location="${ilog.dir}/utils/jlm-tools.jar" />
 			<pathelement location="${ilog.dir}/" />
 		</classpath>
 		</jlmdeploy>
-		<move file="${dist.dir}/${name}_deployed.jar" tofile="${dist.dir}/${name}.jar" />
+		<move file="${dist.dir}/${ant.properties.name}_deployed.jar" tofile="${dist.dir}/${ant.properties.name}.jar" />
 		</target>
 
 	<target name="all" description="Run all ant tasks" depends="clean,copyjars,createjar,test,test-report,javadoc,javadoc-zip">
