@@ -32,6 +32,9 @@ public class VatCalcTest {
 	public void test4() {
 		assertThat(vc.calcualteVAT(10), is(12d));
 	}
-
+	@Test
+	public void test5() {
+		assertThat(vc.calcualteVAT(11), is(12d));
+	}
 
 }
