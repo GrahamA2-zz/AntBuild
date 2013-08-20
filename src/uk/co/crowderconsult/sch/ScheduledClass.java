@@ -1,17 +1,12 @@
 package uk.co.crowderconsult.sch;
 
-import java.awt.HeadlessException;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Date;
+import java.awt.*;
+import java.io.*;
+import java.util.*;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
-import lombok.Data;
-
-import uk.co.crowderconsult.FirstLib;
-import uk.co.crowderconsult.ini4j.Ini;
+import uk.co.crowderconsult.ini4j.*;
 import uk.co.crowderconsult.ini4j.Ini.Section;
 
 
@@ -45,13 +40,22 @@ public class ScheduledClass {
 		try {
 			ScheduledClass mc = new ScheduledClass();
 			StringBuffer sb = new StringBuffer();
-			sb.append(mc.add(10,23) + "\n");
-			sb.append(new VatCalc().calcualteVAT(mc.add(10,23))+ "\n");
-			sb.append(mc.lib.abs(345.634)+ "\n");
+			sb.append(mc.add(10,23));
+			sb.append("\n");
+			sb.append(mc.add(10,23));
+			sb.append("\n");
+			sb.append(new VatCalc().calcualteVAT(mc.add(10,23)));
+			sb.append("\n");
+			sb.append(mc.lib.abs(345.634));
+			sb.append("\n");
 			VatCalc vc = new VatCalc();
 			vc.setVatRate(0.56);
-			sb.append("VAT Rate " + vc.getVatRate()+ "\n");
-			sb.append("Type " + vc.getChart().getPlot().getPlotType() + "\n");
+			sb.append("VAT Rate ");
+			sb.append(vc.getVatRate());
+			sb.append("\n");
+			sb.append("Type ");
+			sb.append(vc.getChart().getPlot().getPlotType());
+			sb.append("\n");
 			sb.append(String.format("%2$s.%1$s@foo.com\n", "allan","graham"));
 
 			Ini iniFile = new Ini();
@@ -63,14 +67,18 @@ public class ScheduledClass {
 				new File("./MyIniFile.ini").delete();
 				sb.append("Deleted\n");
 			} catch (Exception e1) {
-				sb.append("VAT Rate " + e1.getLocalizedMessage() + "\n");
+				sb.append("VAT Rate ");
+				sb.append(e1.getLocalizedMessage());
+				sb.append("\n");
 			}
 			try {
 				iniFile.store(new FileWriter(new File("./MyIniFile.ini")));
 				sb.append("Created\n");
 			} catch (IOException e) {
 				e.printStackTrace();
-				sb.append("VAT Rate " + e.getLocalizedMessage() + "\n");
+				sb.append("VAT Rate ");
+				sb.append(e.getLocalizedMessage());
+				sb.append("\n");
 			}
 			JOptionPane.showMessageDialog(null, sb.toString());
 
