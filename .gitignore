@@ -11,6 +11,7 @@ lib/
 dist/
 build/
 documentation/
+*.ini
 *.tmp
 *.bak
 *.swp
