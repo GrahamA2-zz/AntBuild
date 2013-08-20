@@ -8,12 +8,6 @@
 
 	<property name="ilog.deploy" value="false" />
 
-	<path id="module.classpath">
-       	<fileset dir="../library/">
-			<include name="CrowderINI.jar" />
-		</fileset>
-	</path>
-
 	<!-- Example to show how a file can be run -->
 	<target name="run" depends="common.createjar">
        <java jar="dist/${name}.jar" fork="true" failonerror="true" maxmemory="128m" />

@@ -6,6 +6,8 @@ import java.util.*;
 
 import javax.swing.*;
 
+import lombok.*;
+import uk.co.crowderconsult.*;
 import uk.co.crowderconsult.ini4j.*;
 import uk.co.crowderconsult.ini4j.Ini.Section;
 
