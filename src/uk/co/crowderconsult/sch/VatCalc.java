@@ -14,7 +14,8 @@ import org.jfree.chart.plot.PlotState;
 @Data
 public class VatCalc {
 
-	private double vatRate = 0.25d;
+	private static final double DEFAULT_VAT_RATE = 0.25d;
+	private double vatRate = DEFAULT_VAT_RATE;
 	private JFreeChart chart;
 
 	public VatCalc(){
