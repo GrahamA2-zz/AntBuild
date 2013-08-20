@@ -10,7 +10,7 @@
 
 	<!-- Example to show how a file can be run -->
 	<target name="run" depends="common.createjar">
-       <java jar="dist/${name}.jar" fork="true" failonerror="true" maxmemory="128m" />
+       <java jar="dist/${ant.project.name}.jar" fork="true" failonerror="true" maxmemory="128m" />
     </target>
 
 </project>
