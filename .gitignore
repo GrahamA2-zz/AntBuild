@@ -21,6 +21,7 @@ local.properties
 .settings/
 .loadpath
 .sonar
+/intergration
 
 # External tool builders
 .externalToolBuilders/
